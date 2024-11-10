@@ -108,13 +108,12 @@ int main(void) {
         qsort(time_array, size, sizeof(double), compare);
         qsort(time_array2, size2, sizeof(double), compare);
 
-        
-   }
         printf("Elapsed time for %d repetitions with %d threads, array length %d, %.6f milliseconds\n", M, 1, N, time_array[M / 2]);
         printf("Elapsed time for %d repetitions with %d threads, array length %d, %.6f milliseconds\n", M, 2, N, time_array2[M / 2]);
+
+   }
 
 
     return 0;
 }
-
 
