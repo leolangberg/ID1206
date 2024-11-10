@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-// #define N 524288*2*2*2*2*2*2*2
+// #define N 262144  // 2^18
 // #define NTHRD // num of threads.
 // #define M 10
 
@@ -30,6 +30,9 @@ void operation(double *time_array, int NTHRD) {
     struct timespec start, stop;
     double time;
 
+    // Start time
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
+
     
     pthread_t thrd[NTHRD];
     args_t thrd_args[NTHRD];
@@ -40,8 +43,6 @@ void operation(double *time_array, int NTHRD) {
         a[i] = i;
     }
 
-    // Start time
-    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
 
      // Create threads
     for(int i = 0; i < NTHRD; i++) {
@@ -108,9 +109,11 @@ int main(void) {
         qsort(time_array, size, sizeof(double), compare);
         qsort(time_array2, size2, sizeof(double), compare);
 
+        double ratio1to2 = time_array[M / 2] / time_array2[M / 2];
+        printf("1 thread to 2 threads ratio: %f\n", ratio1to2);
+        
         printf("Elapsed time for %d repetitions with %d threads, array length %d, %.6f milliseconds\n", M, 1, N, time_array[M / 2]);
         printf("Elapsed time for %d repetitions with %d threads, array length %d, %.6f milliseconds\n", M, 2, N, time_array2[M / 2]);
-
    }
 
 
